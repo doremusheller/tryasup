@@ -1,3 +1,4 @@
+```css
 :root {
   --green: #153f2e;
   --green-hover: #1c5a41;
@@ -328,12 +329,31 @@ h1 {
   filter: drop-shadow(0 18px 18px rgba(0, 0, 0, 0.16));
 }
 
+.location-card img {
+  width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+  margin: 0 auto 12px;
+  filter: drop-shadow(0 14px 16px rgba(0, 0, 0, 0.14));
+}
+
 .flavor-card h3,
 .location-card h3,
 .benefit h3 {
   margin: 18px 0 8px;
   font-size: 1.35rem;
   color: var(--green);
+}
+
+.location-card h3 a {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.location-card h3 a:hover,
+.location-card li a:hover {
+  color: var(--green-hover);
 }
 
 .flavor-card p,
@@ -348,6 +368,20 @@ h1 {
   list-style: none;
   padding: 0;
   margin: 12px 0 0;
+}
+
+.cert-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.cert-grid img {
+  width: 100%;
+  border-radius: 18px;
+  background: #fff;
+  padding: 12px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
 }
 
 .statement {
@@ -567,7 +601,8 @@ footer {
 
   .flavor-grid,
   .location-grid,
-  .benefits {
+  .benefits,
+  .cert-grid {
     grid-template-columns: 1fr 1fr;
   }
 }
@@ -580,7 +615,8 @@ footer {
   .flavor-grid,
   .location-grid,
   .benefits,
-  .form-grid {
+  .form-grid,
+  .cert-grid {
     grid-template-columns: 1fr;
   }
 
@@ -605,3 +641,4 @@ footer {
     padding: 56px 20px;
   }
 }
+```
