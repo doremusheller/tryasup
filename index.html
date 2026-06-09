@@ -15,6 +15,40 @@
 </head>
 
 <body>
+
+  <!-- AGE GATE -->
+  <div id="age-gate" class="age-gate" role="dialog" aria-modal="true">
+    <div class="age-gate-box">
+      <h2>Are You 21 or Older?</h2>
+
+      <p>
+        Sup Hemp Mocktail Beverages is intended only for adults
+        21 years of age or older.
+      </p>
+
+      <form id="age-form">
+        <label for="dob">Date of Birth</label>
+
+        <input
+          type="date"
+          id="dob"
+          required
+        />
+
+        <p class="age-disclaimer">
+          By entering this site, you confirm that you are
+          21 years of age or older.
+        </p>
+
+        <button class="button" type="submit">
+          Enter Site
+        </button>
+      </form>
+
+      <p id="age-error" class="age-error"></p>
+    </div>
+  </div>
+
   <header class="site-header">
     <nav class="nav" aria-label="Main navigation">
       <a class="logo" href="index.html" aria-label="Sup home">
@@ -186,5 +220,46 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    const gate = document.getElementById("age-gate");
+    const form = document.getElementById("age-form");
+    const dobInput = document.getElementById("dob");
+    const error = document.getElementById("age-error");
+
+    if (localStorage.getItem("supAgeVerified") === "true") {
+      gate.style.display = "none";
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const dob = new Date(dobInput.value);
+      const today = new Date();
+
+      let age = today.getFullYear() - dob.getFullYear();
+      const monthDiff = today.getMonth() - dob.getMonth();
+
+      if (
+        monthDiff < 0 ||
+        (monthDiff === 0 && today.getDate() < dob.getDate())
+      ) {
+        age--;
+      }
+
+      if (age >= 21) {
+        localStorage.setItem("supAgeVerified", "true");
+        gate.style.display = "none";
+      } else {
+        error.textContent =
+          "Sorry, you must be 21 years of age or older to enter.";
+
+        setTimeout(() => {
+          window.location.href = "underage.html";
+        }, 1500);
+      }
+    });
+  </script>
+
 </body>
 </html>
