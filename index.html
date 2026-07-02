@@ -28,13 +28,14 @@
       </p>
 
       <form id="age-form">
-        <label for="dob">Date of Birth</label>
-
-        <input
-          type="date"
-          id="dob"
-          required
-        />
+        <label>
+          <input
+            type="checkbox"
+            id="age-confirm"
+            required
+          />
+          I confirm that I am 21 years of age or older.
+        </label>
 
         <p class="age-disclaimer">
           By entering this site, you confirm that you are
@@ -305,7 +306,7 @@
   <script>
     const gate = document.getElementById("age-gate");
     const form = document.getElementById("age-form");
-    const dobInput = document.getElementById("dob");
+    const ageConfirm = document.getElementById("age-confirm");
     const error = document.getElementById("age-error");
 
     if (localStorage.getItem("supAgeVerified") === "true") {
@@ -315,33 +316,15 @@
     form.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      const dob = new Date(dobInput.value);
-      const today = new Date();
-
-      let age = today.getFullYear() - dob.getFullYear();
-      const monthDiff = today.getMonth() - dob.getMonth();
-
-      if (
-        monthDiff < 0 ||
-        (monthDiff === 0 && today.getDate() < dob.getDate())
-      ) {
-        age--;
-      }
-
-      if (age >= 21) {
+      if (ageConfirm.checked) {
         localStorage.setItem("supAgeVerified", "true");
         gate.style.display = "none";
       } else {
         error.textContent =
-          "Sorry, you must be 21 years of age or older to enter.";
-
-        setTimeout(() => {
-          window.location.href = "underage.html";
-        }, 1500);
+          "Please confirm that you are 21 years of age or older to enter.";
       }
     });
   </script>
 
 </body>
 </html>
-
