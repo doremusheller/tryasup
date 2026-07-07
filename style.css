@@ -1,4 +1,3 @@
-
 :root {
   --purple: #2b123f;
   --purple-deep: #1a0b28;
@@ -380,18 +379,28 @@ h1 {
 }
 
 .flavor-card {
-  min-height: 360px;
+  min-height: 430px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
 }
 
-.flavor-card img {
-  width: 100%;
-  max-height: 230px;
+.flavor-image {
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.flavor-image img {
+  display: block;
+  width: 210px;
+  max-width: 100%;
+  height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 18px 18px rgba(43, 18, 63, 0.18));
+  background: transparent;
 }
 
 .location-card img {
@@ -749,6 +758,14 @@ footer {
   .form-grid,
   .cert-grid {
     grid-template-columns: 1fr;
+  }
+
+  .flavor-image {
+    height: 230px;
+  }
+
+  .flavor-image img {
+    width: 190px;
   }
 
   h1 {
