@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +9,7 @@
 
   <meta
     name="description"
-    content="Sup is a hemp mocktail beverage made for social sipping without alcohol. Bright flavors, good vibes, and a better way to unwind."
+    content="Sup is a hemp mocktail beverage made for social sipping without alcohol. Bright mocktail flavors, laid-back hemp vibes, and a better way to unwind."
   />
 
   <link rel="stylesheet" href="style.css" />
@@ -61,7 +62,6 @@
 
 
   <!-- HEADER -->
-
   <header class="site-header">
 
     <nav class="nav" aria-label="Main navigation">
@@ -133,6 +133,7 @@
 
   <main>
 
+    <!-- HERO -->
     <section class="hero">
 
       <div>
@@ -146,11 +147,9 @@
         </h1>
 
         <p>
-
           Sup brings bright mocktail flavor and a laid-back hemp experience
           to the moments where you want to unwind, connect, and still feel
           like yourself tomorrow.
-
         </p>
 
         <div class="hero-actions">
@@ -179,17 +178,11 @@
       <div class="hero-video">
 
         <iframe
-
           src="https://www.youtube.com/embed/cB76K6m9K7c?autoplay=1&mute=1&loop=1&playlist=cB76K6m9K7c&controls=0&showinfo=0&modestbranding=1&rel=0"
-
           title="Sup Hemp Mocktail Video"
-
           frameborder="0"
-
           allow="autoplay; encrypted-media"
-
           allowfullscreen
-
         ></iframe>
 
       </div>
@@ -197,18 +190,16 @@
     </section>
 
 
+    <!-- FLAVORS -->
     <section class="section">
 
       <h2 class="section-title">
-
         Pick your kind of unwind.
-
       </h2>
 
       <p class="section-copy">
-
-        Fruity, fizzy, and made for grown-up social drinking without the hangover routine.
-
+        Fruity, fizzy, and made for grown-up social drinking without the
+        hangover routine.
       </p>
 
       <div class="flavor-grid">
@@ -217,7 +208,7 @@
 
           <img
             src="assets/suparita.avif"
-            alt="S'uparita hemp mocktail beverage"
+            alt="S'uparita hemp mocktail beverage can"
           />
 
           <div>
@@ -232,11 +223,12 @@
 
         </div>
 
+
         <div class="flavor-card">
 
           <img
             src="assets/supcosmo.avif"
-            alt="S'up Cosmo hemp mocktail beverage"
+            alt="S'up Cosmo hemp mocktail beverage can"
           />
 
           <div>
@@ -251,11 +243,12 @@
 
         </div>
 
+
         <div class="flavor-card">
 
           <img
             src="assets/nightcap.avif"
-            alt="Nightcap hemp beverage"
+            alt="Nightcap hemp beverage can"
           />
 
           <div>
@@ -270,11 +263,12 @@
 
         </div>
 
+
         <div class="flavor-card">
 
           <img
             src="assets/varietypack.avif"
-            alt="Sup variety pack"
+            alt="Sup hemp mocktail beverage variety pack"
           />
 
           <div>
@@ -294,33 +288,27 @@
     </section>
 
 
+    <!-- STATEMENT -->
     <section class="statement">
 
       <h2>
-
         Not a soda. Not a seltzer.
-        Not another boring "wellness drink."
-
+        Not another boring “wellness drink.”
       </h2>
 
     </section>
 
 
+    <!-- BENEFITS -->
     <section class="section">
 
       <h2 class="section-title">
-
         Why people reach for Sup.
-
       </h2>
 
       <p class="section-copy">
-
-        Built for the sober-curious,
-        the socially selective,
-        and anyone tired of pretending
-        sparkling water is a personality.
-
+        Built for the sober-curious, the socially selective, and anyone
+        tired of pretending sparkling water is a personality.
       </p>
 
       <div class="benefits">
@@ -330,36 +318,30 @@
           <h3>Alcohol Free</h3>
 
           <p>
-
-            Enjoy the ritual of a cocktail-style drink
-            without alcohol calling the shots.
-
+            Enjoy the ritual of a cocktail-style drink without alcohol
+            calling the shots.
           </p>
 
         </div>
+
 
         <div class="benefit">
 
           <h3>Hemp-Infused</h3>
 
           <p>
-
-            A modern beverage experience
-            designed for relaxed, social moments.
-
+            A modern beverage experience designed for relaxed, social moments.
           </p>
 
         </div>
+
 
         <div class="benefit">
 
           <h3>Favorite Mocktail Flavors</h3>
 
           <p>
-
-            Mocktail-inspired profiles that taste intentional,
-            not medicinal.
-
+            Mocktail-inspired profiles that taste intentional, not medicinal.
           </p>
 
         </div>
@@ -369,21 +351,16 @@
     </section>
 
 
+    <!-- CTA -->
     <section class="cta">
 
       <h2>
-
         Bring better drinks to the next hang.
-
       </h2>
 
       <p>
-
-        Stock the fridge,
-        skip the hangover,
-        and give your guests something more interesting
-        than "we have water."
-
+        Stock the fridge, skip the hangover, and give your guests something
+        more interesting than “we have water.”
       </p>
 
       <a
@@ -405,9 +382,7 @@
     <div class="footer-inner">
 
       <div>
-
         © 2026 Sup Hemp Mocktail Beverages
-
       </div>
 
       <div>
@@ -436,42 +411,26 @@
 
 
   <script>
-
     const gate = document.getElementById("age-gate");
-
     const form = document.getElementById("age-form");
-
     const ageConfirm = document.getElementById("age-confirm");
-
     const error = document.getElementById("age-error");
 
-
     if (localStorage.getItem("supAgeVerified") === "true") {
-
       gate.style.display = "none";
-
     }
 
-
     form.addEventListener("submit", function (e) {
-
       e.preventDefault();
 
       if (ageConfirm.checked) {
-
         localStorage.setItem("supAgeVerified", "true");
-
         gate.style.display = "none";
-
       } else {
-
         error.textContent =
           "Please confirm that you are 21 years of age or older.";
-
       }
-
     });
-
   </script>
 
 </body>
