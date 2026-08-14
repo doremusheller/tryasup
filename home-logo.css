@@ -1,0 +1,22 @@
+.nav {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  gap: 28px;
+}
+
+.logo img {
+  height: 136px;
+  width: auto;
+}
+
+@media (max-width: 1100px) {
+  .logo img { height: 112px; }
+}
+
+@media (max-width: 900px) {
+  .logo img { height: 92px; }
+}
+
+@media (max-width: 640px) {
+  .logo img { height: 74px; }
+}
