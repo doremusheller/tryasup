@@ -1,20 +1,20 @@
 .nav {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  gap: 28px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  gap: 24px;
 }
 
 .logo img {
-  height: 136px;
+  height: 168px;
   width: auto;
 }
 
 @media (max-width: 1100px) {
-  .logo img { height: 112px; }
+  .logo img { height: 128px; }
 }
 
 @media (max-width: 900px) {
-  .logo img { height: 92px; }
+  .logo img { height: 96px; }
 }
 
 @media (max-width: 640px) {
