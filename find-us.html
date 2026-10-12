@@ -13,6 +13,32 @@
   />
 
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+  <style>
+    .sup-map-layout { display:grid; grid-template-columns:minmax(0,1.55fr) minmax(280px,1fr); gap:1.5rem; align-items:stretch; }
+    #sup-missouri-map { min-height:580px; border-radius:18px; overflow:hidden; background:#e8efeb; z-index:0; }
+    .sup-map-directory { display:flex; flex-direction:column; min-height:580px; }
+    .sup-map-controls { display:grid; gap:.75rem; margin-bottom:1rem; }
+    .sup-map-controls select,.sup-map-controls input { width:100%; min-height:46px; padding:.65rem .8rem; border:1px solid #c9d6cf; border-radius:8px; font:inherit; background:#fff; color:#173c30; }
+    .sup-map-list { overflow:auto; max-height:510px; padding-right:.45rem; }
+    .sup-map-list a { display:block; padding:.7rem .75rem; margin-bottom:.45rem; border:1px solid #dbe4df; border-radius:9px; background:#fff; color:inherit; text-decoration:none; }
+    .sup-map-list a:hover,.sup-map-list a:focus-visible { border-color:#16866d; box-shadow:0 0 0 2px #16866d22; }
+    .sup-map-list strong { display:block; color:#173c30; font-size:.95rem; }
+    .sup-map-list small { display:block; margin-top:.25rem; color:#5e6c65; line-height:1.35; }
+    .sup-map-list .sup-map-kind { display:inline-block; margin-bottom:.2rem; color:#16745f; font:600 .68rem/1.3 sans-serif; letter-spacing:.08em; text-transform:uppercase; }
+    .sup-pin { display:block; width:19px; height:19px; border:3px solid white; border-radius:50% 50% 50% 0; transform:rotate(-45deg); box-shadow:0 2px 7px #172b3a66; }
+    .sup-pin.retail { background:#e56b45; }
+    .sup-pin.gdf { background:#16866d; }
+    .sup-map-popup { min-width:190px; line-height:1.4; }
+    .sup-map-popup strong { display:block; margin-bottom:.25rem; }
+    .sup-map-popup a { display:inline-block; margin-top:.45rem; color:#08775e; font-weight:700; }
+    .marker-cluster-small,.marker-cluster-medium,.marker-cluster-large { background-color:#16866d55; }
+    .marker-cluster-small div,.marker-cluster-medium div,.marker-cluster-large div { background-color:#16866dcc; color:white; font-weight:700; }
+    .sup-map-attribution { margin-top:.8rem; color:#607067; font-size:.8rem; }
+    @media(max-width:850px) { .sup-map-layout { grid-template-columns:1fr; } #sup-missouri-map { min-height:470px; } .sup-map-directory { min-height:0; } .sup-map-list { max-height:430px; } }
+  </style>
 </head>
 
 <body>
@@ -153,6 +179,32 @@
           <h3>Nightcap</h3>
         </div>
       </div>
+    </section>
+
+    <section class="section" aria-labelledby="missouri-map-title">
+      <h2 class="section-title" id="missouri-map-title">Missouri locations.</h2>
+      <p class="section-copy">Explore Sup retailers and Good Day Farm locations across Missouri. Select any pin or address to open its location in Google Maps.</p>
+      <div class="sup-map-layout">
+        <div id="sup-missouri-map" role="application" aria-label="Interactive map of Missouri retail locations and Good Day Farm dispensaries"></div>
+        <aside class="sup-map-directory" aria-label="Location directory">
+          <div class="sup-map-controls">
+            <label>
+              <span class="sr-only">Filter location type</span>
+              <select id="sup-location-filter">
+                <option value="all">All locations</option>
+                <option value="retail">Sup retail &amp; hospitality (17)</option>
+                <option value="gdf">Good Day Farm dispensaries (21)</option>
+              </select>
+            </label>
+            <label>
+              <span class="sr-only">Search locations</span>
+              <input id="sup-location-search" type="search" placeholder="Search by name, city, or address" />
+            </label>
+          </div>
+          <div class="sup-map-list" id="sup-location-list" aria-live="polite"></div>
+        </aside>
+      </div>
+      <p class="sup-map-attribution">Good Day Farm addresses from its <a href="https://gooddayfarmdispensary.com/dispensaries/" target="_blank" rel="noopener noreferrer">Missouri dispensary locator</a>. Map tiles © OpenStreetMap contributors. Pin placement is approximate; open a location for its exact address.</p>
     </section>
 
     <section class="section">
@@ -499,5 +551,67 @@
       </div>
     </div>
   </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script>
+    const supLocations = [["1 Liquor","4334 Telegraph Rd, St. Louis, MO 63129",38.48612,-90.30373,"retail"],["Riverside Red X","2101 NW Platte Rd, Riverside, MO 64150",39.177,-94.613,"retail"],["Tipsy - Smithville","211 S Hwy 169, Smithville, MO 64089",39.386,-94.581,"retail"],["SOHA (South Hampton Bar & Grill)","2605 Hampton Ave, St. Louis, MO 63139",38.606,-90.302,"retail"],["Royals Liquor - Gravois","6400 Gravois Ave, St. Louis, MO 63116",38.573282,-90.280704,"retail"],["Red Door Liquors & Cigars","115 S Central Ave, Eureka, MO 63025",38.502045,-90.62828,"retail"],["Randalls - Southwest","4925 Southwest Ave, St. Louis, MO 63110",38.61248,-90.268562,"retail"],["Randalls - Manchester","14201 Manchester Rd, Manchester, MO 63011",38.596998,-90.509288,"retail"],["Randalls - Halls Ferry","11000 Old Halls Ferry Rd, St. Louis, MO 63136",38.771915,-90.26054,"retail"],["On the Rocks - St. Charles","1976 S Old Hwy 94, St. Charles, MO 63303",38.763,-90.563,"retail"],["Mike's Wine & Spirits","1110 Westport Rd, Kansas City, MO 64111",39.052,-94.592,"retail"],["Macadoodles - Columbia","455 E Green Meadows Rd, Columbia, MO 65201",38.91696,-92.333809,"retail"],["Liquor Express - Bennington","12533 Bennington Pl, St. Louis, MO 63146",38.668,-90.435,"retail"],["Grand Cru","2600 S Providence Rd, Columbia, MO 65203",38.924382,-92.338807,"retail"],["Gomer's - Midtown","3838 Broadway Blvd, Kansas City, MO 64111",39.059,-94.59,"retail"],["Friar Tuck Beverage - Fenton","792 Gravois Bluffs Blvd, Fenton, MO 63026",38.5026,-90.4525,"retail"],["Friar Tuck Beverage - Crestwood","9053 Watson Rd, Crestwood, MO 63126",38.555,-90.365,"retail"],["Good Day Farm - Arnold","2008 Richardson Rd, Arnold, MO 63010",38.434,-90.377,"gdf"],["Good Day Farm - Boonville","319 E Ashley Rd, Boonville, MO 65233",38.973,-92.734,"gdf"],["Good Day Farm - Buffalo","513 S Ash St, Buffalo, MO 65622",37.64,-93.09,"gdf"],["Good Day Farm - Cape Girardeau","1330 Broadway St, Ste 101, Cape Girardeau, MO 63701",37.305,-89.528,"gdf"],["Good Day Farm - Caruthersville","3910 W Ward Ave, Caruthersville, MO 63830",36.193,-89.66,"gdf"],["Good Day Farm - Columbia","812 Vandiver Dr, Columbia, MO 65202",38.976,-92.322,"gdf"],["Good Day Farm - Clayton","118 S Hanley Rd, Clayton, MO 63105",38.648,-90.337,"gdf"],["Good Day Farm - Eagleville","20021 State Hwy N, Eagleville, MO 64442",40.489,-94.598,"gdf"],["Good Day Farm - Ellisville","16051 Manchester Rd, Ellisville, MO 63011",38.593,-90.586,"gdf"],["Good Day Farm - Independence","16820 E US Hwy 24, Independence, MO 64056",39.106,-94.388,"gdf"],["Good Day Farm - Joplin","2918 E 20th St, Joplin, MO 64804",37.057,-94.477,"gdf"],["Good Day Farm - Kansas City","647 W 39th St, Kansas City, MO 64111",39.0595,-94.5908,"gdf"],["Good Day Farm - Kennett","812 Lester St, Kennett, MO 63857",36.238,-90.05,"gdf"],["Good Day Farm - Mindenmines","1730 US-160, Mindenmines, MO 64769",37.457,-94.588,"gdf"],["Good Day Farm - Springfield East","1510 E Sunshine St, Springfield, MO 65804",37.181,-93.276,"gdf"],["Good Day Farm - Springfield South","3903 S Campbell Ave, Springfield, MO 65807",37.13,-93.297,"gdf"],["Good Day Farm - Springfield West","3800 W Sunshine St, Suite 100, Springfield, MO 65807",37.181,-93.34,"gdf"],["Good Day Farm - St. Charles","301 Little Hills Industrial Blvd, St. Charles, MO 63301",38.783,-90.508,"gdf"],["Good Day Farm - St. Clair","1400 N Main St, St. Clair, MO 63077",38.357,-90.984,"gdf"],["Good Day Farm - St. Louis Central West End","20 S Euclid Ave, St. Louis, MO 63108",38.636,-90.261,"gdf"],["Good Day Farm - St. Louis Soulard","1531 S Broadway St, St. Louis, MO",38.603,-90.199,"gdf"]];
+    const map = L.map("sup-missouri-map", { scrollWheelZoom: false }).setView([38.55, -92.55], 6);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 18,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+    }).addTo(map);
+    const markers = L.markerClusterGroup({ showCoverageOnHover: false, maxClusterRadius: 34 });
+    const markerByKey = new Map();
+    const list = document.getElementById("sup-location-list");
+    const filter = document.getElementById("sup-location-filter");
+    const search = document.getElementById("sup-location-search");
+    function mapsUrl(address) {
+      return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(address);
+    }
+    function refreshLocations() {
+      const kind = filter.value;
+      const term = search.value.trim().toLowerCase();
+      markers.clearLayers();
+      list.replaceChildren();
+      supLocations.forEach(([name, address, lat, lng, type]) => {
+        const haystack = (name + " " + address).toLowerCase();
+        if ((kind !== "all" && kind !== type) || (term && !haystack.includes(term))) return;
+        const maps = mapsUrl(address);
+        const icon = L.divIcon({ className:"", html:'<span class="sup-pin ' + type + '"></span>', iconSize:[22,22], iconAnchor:[9,20], popupAnchor:[2,-18] });
+        const marker = L.marker([lat,lng], { icon });
+        const popup = document.createElement("div");
+        popup.className = "sup-map-popup";
+        const title = document.createElement("strong");
+        title.textContent = name;
+        const addr = document.createElement("span");
+        addr.textContent = address;
+        const link = document.createElement("a");
+        link.href = maps;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "Open in Google Maps ↗";
+        popup.append(title, addr, document.createElement("br"), link);
+        marker.bindPopup(popup);
+        markers.addLayer(marker);
+        markerByKey.set(name, marker);
+        const item = document.createElement("a");
+        item.href = maps;
+        item.target = "_blank";
+        item.rel = "noopener noreferrer";
+        item.innerHTML = '<span class="sup-map-kind">' + (type === "gdf" ? "Good Day Farm" : "Sup Retail & Hospitality") + '</span>';
+        const itemName = document.createElement("strong");
+        itemName.textContent = name;
+        const itemAddress = document.createElement("small");
+        itemAddress.textContent = address;
+        item.append(itemName, itemAddress);
+        list.appendChild(item);
+      });
+      map.addLayer(markers);
+    }
+    refreshLocations();
+    filter.addEventListener("change", refreshLocations);
+    search.addEventListener("input", refreshLocations);
+  </script>
 </body>
 </html>
