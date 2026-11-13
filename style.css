@@ -429,6 +429,10 @@ h1 {
   color: var(--purple);
 }
 
+.location-card h3 {
+  text-align: center;
+}
+
 .location-card h3 a {
   text-decoration: underline;
   text-decoration-thickness: 2px;
