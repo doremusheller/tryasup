@@ -798,3 +798,28 @@ footer {
     padding: 58px 20px;
   }
 }
+
+
+/* Let the two cocktail bottle images use the full tile width. */
+.flavor-card.cocktail-tile .flavor-image {
+  height: 300px;
+  margin: -24px -24px 1.5rem;
+  overflow: hidden;
+  border-radius: 29px 29px 0 0;
+}
+
+.flavor-card.cocktail-tile .flavor-image img {
+  width: 100%;
+  max-width: none;
+  transform: scale(1.18);
+}
+
+@media (max-width: 640px) {
+  .flavor-card.cocktail-tile .flavor-image {
+    height: 300px;
+  }
+
+  .flavor-card.cocktail-tile .flavor-image img {
+    width: 100%;
+  }
+}
